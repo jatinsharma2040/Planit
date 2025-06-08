@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Plus, MapPin, Users, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import AuthModal from '@/components/AuthModal';
 import TripCard from '@/components/TripCard';
 import CreateTripModal from '@/components/CreateTripModal';
@@ -30,6 +30,7 @@ const Index = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check for stored user
@@ -74,6 +75,10 @@ const Index = () => {
     setShowCreateTrip(false);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const userTrips = trips.filter(trip => trip.participants.includes(user?.id || ''));
 
   if (!user) {
@@ -81,7 +86,10 @@ const Index = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50">
         <div className="container mx-auto px-4 py-16">
           <div className="text-center mb-16">
-            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-6">
+            <h1 
+              className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-6 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={handleLogoClick}
+            >
               Planit
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -144,7 +152,10 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50">
       <header className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
+          <h1 
+            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleLogoClick}
+          >
             Planit
           </h1>
           <div className="flex items-center gap-4">
