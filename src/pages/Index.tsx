@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthModal from '@/components/AuthModal';
 import TripCard from '@/components/TripCard';
 import CreateTripModal from '@/components/CreateTripModal';
+import { toast } from '@/hooks/use-toast';
 
 interface User {
   id: string;
@@ -73,6 +74,17 @@ const Index = () => {
     setTrips(updatedTrips);
     localStorage.setItem('planit_trips', JSON.stringify(updatedTrips));
     setShowCreateTrip(false);
+  };
+
+  const handleDeleteTrip = (tripId: string) => {
+    const updatedTrips = trips.filter(trip => trip.id !== tripId);
+    setTrips(updatedTrips);
+    localStorage.setItem('planit_trips', JSON.stringify(updatedTrips));
+    
+    toast({
+      title: "Trip deleted",
+      description: "The trip has been successfully deleted."
+    });
   };
 
   const handleLogoClick = () => {
@@ -220,7 +232,12 @@ const Index = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {userTrips.map(trip => (
-              <TripCard key={trip.id} trip={trip} />
+              <TripCard 
+                key={trip.id} 
+                trip={trip} 
+                onDelete={handleDeleteTrip}
+                currentUserId={user.id}
+              />
             ))}
           </div>
         )}

@@ -1,8 +1,20 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Users, DollarSign } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Calendar, Users, DollarSign, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface Trip {
   id: string;
@@ -17,9 +29,11 @@ interface Trip {
 
 interface TripCardProps {
   trip: Trip;
+  onDelete?: (tripId: string) => void;
+  currentUserId?: string;
 }
 
-const TripCard = ({ trip }: TripCardProps) => {
+const TripCard = ({ trip, onDelete, currentUserId }: TripCardProps) => {
   const navigate = useNavigate();
 
   const formatDate = (dateString: string) => {
@@ -42,9 +56,21 @@ const TripCard = ({ trip }: TripCardProps) => {
     navigate(`/trip/${trip.id}`);
   };
 
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when delete button is clicked
+  };
+
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(trip.id);
+    }
+  };
+
+  const canDelete = currentUserId === trip.createdBy;
+
   return (
     <Card 
-      className="hover:shadow-lg transition-shadow cursor-pointer group"
+      className="hover:shadow-lg transition-shadow cursor-pointer group relative"
       onClick={handleCardClick}
     >
       <CardHeader className="pb-3">
@@ -52,9 +78,42 @@ const TripCard = ({ trip }: TripCardProps) => {
           <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">
             {trip.name}
           </CardTitle>
-          <Badge variant="secondary" className="text-xs">
-            {trip.tripCode}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="text-xs">
+              {trip.tripCode}
+            </Badge>
+            {canDelete && onDelete && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
+                    onClick={handleDeleteClick}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Trip</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete "{trip.name}"? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-red-600 hover:bg-red-700"
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+          </div>
         </div>
       </CardHeader>
       
