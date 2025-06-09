@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -84,31 +85,26 @@ const Index = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center mb-16">
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <h1 
-              className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-6 cursor-pointer hover:opacity-80 transition-opacity"
+              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
               onClick={handleLogoClick}
             >
               Planit
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Plan epic group trips with friends. Create itineraries, vote on activities, and track budgets together.
-            </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-4">
               <Button 
                 onClick={() => {
                   setAuthMode('register');
                   setShowAuthModal(true);
                 }}
-                size="lg"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
               >
                 Get Started
               </Button>
               <Button 
-                variant="outline" 
-                size="lg"
+                variant="outline"
                 onClick={() => {
                   setAuthMode('login');
                   setShowAuthModal(true);
@@ -117,6 +113,17 @@ const Index = () => {
                 Sign In
               </Button>
             </div>
+          </div>
+        </header>
+
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center mb-16">
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-6">
+              Planit
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Plan epic group trips with friends. Create itineraries, vote on activities, and track budgets together.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
