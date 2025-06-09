@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -80,6 +79,13 @@ const Index = () => {
     navigate('/');
   };
 
+  const handleFeatureCardClick = () => {
+    if (!user) {
+      setAuthMode('login');
+      setShowAuthModal(true);
+    }
+  };
+
   const userTrips = trips.filter(trip => trip.participants.includes(user?.id || ''));
 
   if (!user) {
@@ -127,17 +133,26 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Card 
+              className="p-6 text-center hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={handleFeatureCardClick}
+            >
               <MapPin className="h-12 w-12 text-blue-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Plan Together</h3>
               <p className="text-gray-600">Create shared itineraries and add activities collaboratively</p>
             </Card>
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Card 
+              className="p-6 text-center hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={handleFeatureCardClick}
+            >
               <Users className="h-12 w-12 text-orange-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Vote & Decide</h3>
               <p className="text-gray-600">Vote on activities and let the group decide what makes it in</p>
             </Card>
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Card 
+              className="p-6 text-center hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={handleFeatureCardClick}
+            >
               <Calendar className="h-12 w-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Track Budgets</h3>
               <p className="text-gray-600">Keep everyone on budget with real-time expense tracking</p>
