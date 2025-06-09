@@ -57,10 +57,11 @@ const TripCard = ({ trip, onDelete, currentUserId }: TripCardProps) => {
   };
 
   const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when delete button is clicked
+    e.stopPropagation();
   };
 
   const handleDelete = () => {
+    console.log('Deleting trip:', trip.id);
     if (onDelete) {
       onDelete(trip.id);
     }
@@ -98,7 +99,7 @@ const TripCard = ({ trip, onDelete, currentUserId }: TripCardProps) => {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete Trip</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete "{trip.name}"? This action cannot be undone.
+                      Are you sure you want to delete "{trip.name}"? This action cannot be undone and will permanently remove all trip data.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -107,7 +108,7 @@ const TripCard = ({ trip, onDelete, currentUserId }: TripCardProps) => {
                       onClick={handleDelete}
                       className="bg-red-600 hover:bg-red-700"
                     >
-                      Delete
+                      Delete Trip
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
