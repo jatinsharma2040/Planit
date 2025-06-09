@@ -24,6 +24,7 @@ const AuthModal = ({ isOpen, onClose, mode, onAuth }: AuthModalProps) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [currentMode, setCurrentMode] = useState<'login' | 'register'>(mode);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ const AuthModal = ({ isOpen, onClose, mode, onAuth }: AuthModalProps) => {
 
     // Mock authentication - in real app would call API
     try {
-      if (mode === 'register') {
+      if (currentMode === 'register') {
         if (!name.trim()) {
           toast({
             title: "Error",
@@ -105,12 +106,12 @@ const AuthModal = ({ isOpen, onClose, mode, onAuth }: AuthModalProps) => {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'login' ? 'Sign In' : 'Create Account'}
+            {currentMode === 'login' ? 'Sign In' : 'Create Account'}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
+          {currentMode === 'register' && (
             <div>
               <Label htmlFor="name">Full Name</Label>
               <Input
@@ -153,9 +154,35 @@ const AuthModal = ({ isOpen, onClose, mode, onAuth }: AuthModalProps) => {
             className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
             disabled={loading}
           >
-            {loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account'}
+            {loading ? 'Loading...' : currentMode === 'login' ? 'Sign In' : 'Create Account'}
           </Button>
         </form>
+
+        <div className="text-center mt-4">
+          {currentMode === 'login' ? (
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <button
+                type="button"
+                onClick={() => setCurrentMode('register')}
+                className="text-blue-600 hover:text-blue-700 font-medium underline"
+              >
+                Get Started
+              </button>
+            </p>
+          ) : (
+            <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={() => setCurrentMode('login')}
+                className="text-blue-600 hover:text-blue-700 font-medium underline"
+              >
+                Sign In
+              </button>
+            </p>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
